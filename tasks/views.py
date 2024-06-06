@@ -3,12 +3,14 @@ from rest_framework import generics
 from .models import Task
 from .serializers import TaskSerializer
 from .permissions import IsOwnerOrReadOnly
+from .pagination import CustomPagination
 
 
 class TaskList(generics.ListCreateAPIView):
     queryset = Task.objects.all()
     serializer_class = TaskSerializer
     permission_classes = [IsAuthenticated]
+    pagination_class = CustomPagination
 
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
@@ -17,6 +19,7 @@ class TaskList(generics.ListCreateAPIView):
 class UserTaskList(generics.ListAPIView):
     serializer_class = TaskSerializer
     permission_classes = [IsAuthenticated]
+    pagination_class = CustomPagination
 
     def get_queryset(self):
         user_id = self.kwargs.get('userId')
@@ -45,6 +48,7 @@ class TaskComplete(generics.UpdateAPIView):
 class TaskFilterByStatus(generics.ListAPIView):
     serializer_class = TaskSerializer
     permission_classes = [IsAuthenticated]
+    pagination_class = CustomPagination
 
     def get_queryset(self):
         status = self.request.query_params.get('status', None)
