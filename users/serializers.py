@@ -3,6 +3,8 @@ from .models import User
 
 
 class UserSerializer(serializers.ModelSerializer):
+    password = serializers.CharField(write_only=True, required=True, min_length=6)
+
     class Meta:
         model = User
         fields = ['id', 'first_name', 'last_name', 'username', 'password']

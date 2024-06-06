@@ -4,8 +4,6 @@ from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, Permis
 
 class UserManager(BaseUserManager):
     def create_user(self, username, password=None, **extra_fields):
-        if not password or len(password) < 6:
-            raise ValueError('Password must be at least 6 characters long')
         user = self.model(username=username, **extra_fields)
         user.set_password(password)
         user.save(using=self._db)
