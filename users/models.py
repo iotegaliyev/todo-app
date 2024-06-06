@@ -4,8 +4,6 @@ from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 
 class UserManager(BaseUserManager):
     def create_user(self, username, password=None, **extra_fields):
-        if not username:
-            raise ValueError('The Username field must be set')
         if not password or len(password) < 6:
             raise ValueError('Password must be at least 6 characters long')
         user = self.model(username=username, **extra_fields)
